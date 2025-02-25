@@ -1,10 +1,10 @@
 package com.uavwaffle.mobcrystals.item.custom;
 
 import com.uavwaffle.mobcrystals.MobCrystals;
+import com.uavwaffle.mobcrystals.config.Config;
 import com.uavwaffle.mobcrystals.utilities.Constants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Set;
 
 public class MobCrystal extends Item {
 
@@ -30,6 +31,8 @@ public class MobCrystal extends Item {
 
 
     private void saveMobToCrystal(Mob mob, ItemStack itemstack, @NotNull Player player, @NotNull InteractionHand usedHand) {
+
+
         ItemStack copy = itemstack.copy();
         copy.setCount(1);
         CompoundTag storedEntityTag = new CompoundTag();
@@ -99,6 +102,9 @@ public class MobCrystal extends Item {
         if (tag != null) {
             return InteractionResult.FAIL;
         }
+        if (!isValidMob(mobToSave)) {
+            return InteractionResult.FAIL;
+        }
 
         if (!player.level().isClientSide()) {
             saveMobToCrystal(mobToSave, itemstack, player, usedHand);
@@ -128,9 +134,58 @@ public class MobCrystal extends Item {
         }
     }
 
+    private boolean isValidMob(Mob mob) {
+        if (mob.getMaxHealth() > Config.maxHP) {
+            return false;
+        }
+
+//        if (Config.useWhiteList) {
+//            if(!checkMobWhiteList(mob)) {
+//                return false;
+//            }
+//        } else {
+//            if (checkMobBlackList(mob)) {
+//                return false;
+//            }
+//        }
+
+        if (Config.useWhiteList && !checkMobWhiteList(mob)) {
+            return false;
+        }
+        if (!Config.useWhiteList && checkMobBlackList(mob)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkMobBlackList(Entity mob) {
+        Set<EntityType> invalidEntities = Config.invalidEntities;
+
+//        Config.invalidEntities.forEach(System.out::println);
+
+        for(EntityType entity : invalidEntities) {
+            if (entity.toString().equals(mob.getType().toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean checkMobWhiteList(Entity mob) {
+        Set<EntityType> invalidEntities = Config.validEntities;
+
+//        Config.invalidEntities.forEach(System.out::println);
+
+        for(EntityType entity : invalidEntities) {
+            if (entity.toString().equals(mob.getType().toString())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public int getMaxStackSize(ItemStack stack) {
-        return 16;
+        return Config.maxStackSize;
     }
 
     @Override
