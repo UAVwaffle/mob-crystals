@@ -1,21 +1,26 @@
 package com.uavwaffle.mobcrystals.item.custom;
 
 import com.uavwaffle.mobcrystals.MobCrystals;
-import net.minecraft.core.BlockPos;
+import com.uavwaffle.mobcrystals.utilities.Constants;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class MobCrystal extends Item {
 
@@ -30,7 +35,7 @@ public class MobCrystal extends Item {
         CompoundTag storedEntityTag = new CompoundTag();
         mob.save(storedEntityTag);
         CompoundTag tag = copy.getOrCreateTagElement(MobCrystals.MOD_ID);
-        tag.put("boundentity", storedEntityTag);
+        tag.put("bound_entity", storedEntityTag);
 
         if (itemstack.getCount() == 1) {
             player.setItemInHand(usedHand, copy);
@@ -68,10 +73,9 @@ public class MobCrystal extends Item {
         if (tag == null) {
             return InteractionResult.FAIL;
         }
-        CompoundTag mobTag = tag.getCompound("boundentity");
+        CompoundTag mobTag = tag.getCompound("bound_entity");
 
         loadMobFromCrystal(level, player, mobTag, context.getClickLocation());
-
 
         ItemStack defaultCrystal = this.getDefaultInstance();
         if (itemstack.getCount() == 1) {
@@ -103,4 +107,25 @@ public class MobCrystal extends Item {
         interactionTarget.discard();
         return InteractionResult.SUCCESS;
     }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack itemstack, @Nullable Level level, List<Component> tooltipComponents, @NotNull TooltipFlag isAdvanced) {
+
+        if (level == null) return;
+        CompoundTag tag = itemstack.getTagElement(MobCrystals.MOD_ID);
+        if (tag == null) {
+            tooltipComponents.add(Constants.EMPTY_CRYSTAL);
+            return;
+        }
+
+        if (tag.contains("bound_entity")) {
+            CompoundTag id = tag.getCompound("bound_entity");
+            String displayName = id.getString("id");
+            tooltipComponents.add(Constants.MOB_CRYSTAL_TOOLTIP);
+            tooltipComponents.add(Component.translatable(displayName).withStyle(ChatFormatting.GREEN));
+        } else {
+            tooltipComponents.add(Constants.EMPTY_CRYSTAL);
+        }
+    }
+
 }

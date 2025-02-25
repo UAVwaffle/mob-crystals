@@ -1,3 +1,7 @@
 {
-  "item.mob_crystals.mob_crystal": "Mob Crystal"
+  "item.mob_crystals.mob_crystal": "Mob Crystal",
+
+  "tooltip.petrichorutilitymod.sealed_mob": "Sealed: ",
+  "tooltip.mob_crystals.mob_crystal_tooltip": "Sealed Entity: ",
+  "tooltip.mob_crystals.empty_crystal": "Empty"
 }
