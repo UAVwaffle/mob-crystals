@@ -128,4 +128,14 @@ public class MobCrystal extends Item {
         }
     }
 
+    @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return 16;
+    }
+
+    @Override
+    public boolean isFoil(@NotNull ItemStack itemstack) {
+        CompoundTag tag = itemstack.getTagElement(MobCrystals.MOD_ID);
+        return tag != null;
+    }
 }
