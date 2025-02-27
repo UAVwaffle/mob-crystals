@@ -21,7 +21,7 @@ public class Config {
 
     private static final ForgeConfigSpec.BooleanValue WHITE_LIST = BUILDER.comment("Toggles between using the whitelist or blacklist").define("doWhiteList", false);
 
-    private static final ForgeConfigSpec.IntValue MAX_MOB_HP = BUILDER.comment("Max hp of a mob before it can't be sealed away").defineInRange("maxHP", 20, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue MAX_MOB_HP = BUILDER.comment("Max hp of a mob before it can't be sealed away").defineInRange("maxHP", 50, 1, Integer.MAX_VALUE);
 
     private static final ForgeConfigSpec.IntValue MAX_STACK_SIZE = BUILDER.comment("Max stack size for the Mob Crystals").defineInRange("stackSize", 16, 1, 64);
 
@@ -32,7 +32,7 @@ public class Config {
 
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> VALID_MOBS = BUILDER.comment("A list of mobs that can be sealed away").defineListAllowEmpty("entityWhiteList", List.of("minecraft:pig", "minecraft:cow", "minecraft:sheep"), Config::validateEntityName);
 
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> INVALID_MOBS = BUILDER.comment("A list of mobs that can't be sealed away").defineListAllowEmpty("entityBlackList", List.of("minecraft:wither", "minecraft:elder_guardian"), Config::validateEntityName);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> INVALID_MOBS = BUILDER.comment("A list of mobs that can't be sealed away").defineListAllowEmpty("entityBlackList", List.of("minecraft:ender_dragon", "minecraft:wither", "minecraft:elder_guardian"), Config::validateEntityName);
 
 
     public static final ForgeConfigSpec SPEC = BUILDER.build();
