@@ -139,16 +139,6 @@ public class MobCrystal extends Item {
             return false;
         }
 
-//        if (Config.useWhiteList) {
-//            if(!checkMobWhiteList(mob)) {
-//                return false;
-//            }
-//        } else {
-//            if (checkMobBlackList(mob)) {
-//                return false;
-//            }
-//        }
-
         if (Config.useWhiteList && !checkMobWhiteList(mob)) {
             return false;
         }
@@ -161,7 +151,6 @@ public class MobCrystal extends Item {
     private boolean checkMobBlackList(Entity mob) {
         Set<EntityType> invalidEntities = Config.invalidEntities;
 
-//        Config.invalidEntities.forEach(System.out::println);
 
         for(EntityType entity : invalidEntities) {
             if (entity.toString().equals(mob.getType().toString())) {
@@ -173,7 +162,6 @@ public class MobCrystal extends Item {
     private boolean checkMobWhiteList(Entity mob) {
         Set<EntityType> invalidEntities = Config.validEntities;
 
-//        Config.invalidEntities.forEach(System.out::println);
 
         for(EntityType entity : invalidEntities) {
             if (entity.toString().equals(mob.getType().toString())) {

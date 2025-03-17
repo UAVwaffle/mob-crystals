@@ -25,11 +25,6 @@ public class Config {
 
     private static final ForgeConfigSpec.IntValue MAX_STACK_SIZE = BUILDER.comment("Max stack size for the Mob Crystals").defineInRange("stackSize", 16, 1, 64);
 
-//    public static final ForgeConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER.comment("What you want the introduction message to be for the magic number").define("magicNumberIntroduction", "The magic number is... ");
-
-    // a list of strings that are treated as resource locations for items
-//    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER.comment("A list of items to log on common setup.").defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), Config::validateItemName);
-
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> VALID_MOBS = BUILDER.comment("A list of mobs that can be sealed away").defineListAllowEmpty("entityWhiteList", List.of("minecraft:pig", "minecraft:cow", "minecraft:sheep"), Config::validateEntityName);
 
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> INVALID_MOBS = BUILDER.comment("A list of mobs that can't be sealed away").defineListAllowEmpty("entityBlackList", List.of("minecraft:ender_dragon", "minecraft:wither", "minecraft:elder_guardian"), Config::validateEntityName);
@@ -40,7 +35,6 @@ public class Config {
     public static boolean useWhiteList;
     public static int maxHP;
     public static int maxStackSize;
-//    public static Set<Item> items;
 public static Set<EntityType> validEntities;
     public static Set<EntityType> invalidEntities;
 
@@ -58,8 +52,6 @@ public static Set<EntityType> validEntities;
         maxHP = MAX_MOB_HP.get();
         maxStackSize = MAX_STACK_SIZE.get();
 
-        // convert the list of strings into a set of items
-//        items = ITEM_STRINGS.get().stream().map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).collect(Collectors.toSet());
         validEntities = VALID_MOBS.get().stream().map(entityName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityName))).collect(Collectors.toSet());
         invalidEntities = INVALID_MOBS.get().stream().map(entityName -> ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityName))).collect(Collectors.toSet());
 

@@ -18,8 +18,6 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         simpleItem(ModItems.MOB_CRYSTAL);
-
-
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
